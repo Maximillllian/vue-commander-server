@@ -7,5 +7,6 @@ router.get('/drives', controllers.getDrives)
 router.post('/open-folder', controllers.openFolder)
 router.post('/open-file-native', controllers.openFileNative)
 router.post('/back', controllers.getParentFolder)
+router.post('/delete', controllers.deleteFiles)
 
 export default router;

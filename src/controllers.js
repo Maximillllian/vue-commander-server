@@ -23,6 +23,7 @@ export async function openFolder(req, res) {
         const currentFilePath = path.resolve(folderPath, file.name)
         let fileData = {
             name: file.name,
+            path: currentFilePath,
             is_directory: file.isDirectory(),
             is_file: file.isFile(),
             extension: '',
@@ -72,5 +73,19 @@ export async function getParentFolder(req, res) {
         return res.json(parentFolderPath)
     } catch (err) {
 
+    }
+}
+
+export function deleteFiles(req, res) {
+    try {
+        const pathsForDelete = req.body.paths;
+        pathsForDelete.forEach(filePath => {
+            fs.rmSync(filePath, { recursive: true, force: true });
+        })
+        return res.json({
+            message: 'Files succesfully deleted'
+        })
+    } catch (err) {
+        console.log(err)
     }
 }
