@@ -3,7 +3,7 @@ import fs from "fs";
 import fse from 'fs-extra'
 import path from "path";
 import open from 'open'
-import { getFileType, isRoot } from './utils.js'
+import { getFileType, isRoot, copyWithoutOverwrite } from './utils.js'
 
 export async function getDrives(req, res) {
   try {
@@ -95,7 +95,7 @@ export function copyFiles(req, res) {
     try {
         const { files } = req.body;
         files.forEach(file => {
-            fse.copySync(file.sourcePath, file.destinationPath);
+            copyWithoutOverwrite(file.sourcePath, file.destinationPath);
         })
         return res.json({
             message: 'Files succesfully copied'
@@ -117,9 +117,25 @@ export function moveFiles(req, res) {
             message: 'Files succesfully moved'
         })
     } catch (err) {
-        console.log(err)
         res.status(404).json({
             message: 'Ошибка при перемещении файлов, проверьте путь'
+        })
+    }
+}
+
+export function renameFile(req, res) {
+    try {
+        const { sourcePath, newName } = req.body;
+        const dirPath = path.dirname(sourcePath)
+        const newPath = path.resolve(dirPath, newName)
+        console.log(sourcePath, newPath)
+        fs.renameSync(sourcePath, newPath)
+        return res.json({
+            message: 'Файлы успешно скопированы'
+        })
+    } catch (err) {
+        res.status(404).json({
+            message: 'Проверьте название файла, возможно такой файл уже существует'
         })
     }
 }

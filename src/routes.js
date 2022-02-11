@@ -10,5 +10,6 @@ router.post('/back', controllers.getParentFolder)
 router.post('/delete', controllers.deleteFiles)
 router.post('/copy', controllers.copyFiles)
 router.post('/move', controllers.moveFiles)
+router.post('/rename', controllers.renameFile)
 
 export default router;
