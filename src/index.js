@@ -6,6 +6,8 @@ import cors from 'cors'
 const app = express()
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
+
+// Сделать прокси на клиенте 
 app.use(cors({origin: 'http://localhost:8080'}))
 
 app.use('/api', routes)
